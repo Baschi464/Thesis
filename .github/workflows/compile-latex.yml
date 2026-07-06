@@ -1,0 +1,35 @@
+name: Compile LaTeX Synthesis
+
+on:
+  push:
+    paths:
+      - 'synthesis/**.tex'
+      - 'synthesis/references.bib'
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    container: texlive/texlive:latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Prepare Workspace
+        run: |
+          if [ ! -f synthesis/references.bib ]; then
+            touch synthesis/references.bib
+          fi
+
+      - name: Compile Master Document
+        run: |
+          cd synthesis
+          # -output-directory=build forces all aux files and the PDF into the build folder
+          latexmk -pdf -output-directory=build -interaction=nonstopmode main.tex
+
+      - name: Upload Master PDF Preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: master-thesis-synthesis
+          # Updated path to target the build directory
+          path: synthesis/build/main.pdf

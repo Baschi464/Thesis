@@ -1,0 +1,15 @@
+% !TeX root = main.tex
+
+\section{SYRINGE PUMP ACTUATION AND PNEUMATIC INTERFACE}
+
+\subsection{Actuator Design and Hardware Selection}
+To drive the multi-channel pneumatic network, a custom 9-channel syringe pump system was 
+designed. To minimize the linear footprint of the modular assembly and keep a low cost, 20\,cc industrial syringes were used. Using a syringe with a larger 
+diameter it is possible to reduce the required stroke length for a given volume. 
+
+Linear actuation is driven by 28BYJ-48 stepper motors (5\,V) coupled to T8x8 trapezoidal lead screws (8\,mm pitch, 8\,mm diameter). Initial designs considered standard M4 threaded rods (0.7\,mm pitch); however, calculations indicated that the 1:64 internal gear reduction of the 28BYJ-48 motor would result in a prohibitively slow actuation time (approximately 7.6 minutes for a 20\,mL draw at maximum reliable speed). While alternative mechanisms such as rack-and-pinion and belt-drives were considered, they introduced spatial packaging complexities and torque limitations, respectively. The T8x8 lead screw was selected as it provides an 11-fold increase in linear velocity over the M4 rod while maintaining sufficient mechanical advantage to draw a vacuum. 
+
+To couple the 5\,mm double-flat motor shaft to the 8\,mm lead screw without relying on expensive commercial aluminum couplings, custom rigid couplers were fabricated using an ABS-like resin via 3D printing. The design utilizes a geometric friction-fit for the D-shaft and a captive M3 hex nut embedded within the resin to handle the rotational torque of the lead screw, preventing the stripping of plastic threads under load. The 9-channel array is controlled by an Arduino Mega 2560 (CH340G variant) interfacing with nine ULN2003 motor drivers.
+
+\subsection{Pneumatic Interfacing}
+Interfacing the rigid syringe outputs to the soft robotic network requires high-resistance, leak-proof connections. Hobby-grade stainless steel injection cannulas (HP-28, Mineshima) with an outer diameter of 0.6\,mm and an inner diameter of 0.37\,mm were utilized. To reduce airflow restriction, the 24\,mm cannulas were cut to a length of 3\,mm. The cutting process initially deformed the thin-walled metal; therefore, mechanical clamping was applied near the tip to restore the circular cross-section and prevent occlusion of the 0.37\,mm internal diameter. This shortened metal interface provides a secure, friction-based interference fit when inserted into highly elastic 0.5\,mm inner diameter silicone tubing, eliminating the need for supplementary adhesives while effectively transmitting the required pressure differentials.
