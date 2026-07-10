@@ -1,0 +1,63 @@
+% !TeX root = main.tex
+
+% ============================================================
+% thesis-sync entry: 2026-07-06_materials-and-bonding
+% Type: numeric data + design decision
+% Insertable section block (no preamble). Requires: multirow (optional), no figures.
+% Elastosil M4601 values transcribed from the Wacker datasheet image supplied
+% by the author (Properties Cured, vulcanized 24 h at 23 C). EcoFlex 00-30 Yeoh
+% coefficients are those used in the author's own FEM work (inchworm paper,
+% Table 1). Cells marked "n.r." were not recorded in this session.
+% ============================================================
+
+\section{MATERIALS AND BONDING}
+\label{sec:lizard-materials}
+
+\subsection{Elastomers}
+
+Two silicone elastomers are combined in the robot. The actuator bodies
+(body, tail, and leg tubes) are cast in EcoFlex 00-30 (Smooth-On), a
+translucent platinum-cure silicone. The end caps, the foot interfaces,
+and the suction cups are cast in Elastosil M4601 (Wacker Chemie), a
+reddish-brown two-component RTV-2 silicone that is substantially stiffer
+and tougher than EcoFlex 00-30; in the photographs of the robot, every
+reddish part is Elastosil M4601 and every translucent part is
+EcoFlex 00-30. The division of roles follows the mechanical demand: the
+actuator walls must be highly extensible at low pressure, whereas the
+caps and suction cups must hold their shape, seal against the pneumatic
+fittings, and survive repeated attachment cycles. The cured properties of Ecoflex 00-30 and
+Elastosil M4601, transcribed from the manufacturer's datasheet, are
+reported in Table~\ref{tab:lizard-materials}.
+
+\begin{table}[tb]
+  \caption{Properties of the two silicone elastomers used in the robot.
+  Elastosil M4601 values are the manufacturer's cured properties
+  (vulcanized 24~h at 23$^{\circ}$C); EcoFlex 00-30 Yeoh coefficients are
+  those used in the FEM optimization of the parent actuator. Cells marked
+  n.r.\ were not recorded and are to be completed from the respective
+  datasheets.}
+  \label{tab:lizard-materials}
+  \centering
+  \begin{tabular}{|l|c|c|}
+    \hline
+    Property & EcoFlex 00-30 & Elastosil M4601 \\ \hline
+    Manufacturer & Smooth-On & Wacker Chemie \\ \hline
+    Color & translucent & reddish brown \\ \hline
+    Density & 1.07~g/cm$^3$ & 1.13~g/cm$^3$ \\ \hline
+    Hardness & Shore 00-30 & Shore A 28 (ISO 868) \\ \hline
+    Tensile strength & 1.38~N/mm$^2$ & 6.5~N/mm$^2$ \\ \hline
+    Elongation at break & 900\% & 700\% \\ \hline
+    Tear strength & 6.65~N/mm & $>$30~N/mm  \\ \hline
+    Linear shrinkage & $<$0.1\% ($<$0.001~in./in.) & $<$0.1\% \\ \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Curing and Bonding Procedure}
+
+All silicone parts are oven-cured at elevated temperature to accelerate
+vulcanization: EcoFlex 00-30 parts are baked at 90$^{\circ}$C for
+90~minutes, and Elastosil M4601 parts at 90$^{\circ}$C for 60~minutes.
+Bonding between cured Elastosil and cured EcoFlex parts --- required at
+every cap-to-tube and foot-to-leg interface --- is performed with KE44-T
+silicone adhesive (Shin-Etsu Chemical); the bonded assembly is baked at
+90$^{\circ}$C for 90~minutes to cure the adhesive.

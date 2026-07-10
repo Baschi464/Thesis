@@ -1,0 +1,21 @@
+% !TeX root = main.tex
+
+\section{SYSTEM IMPLEMENTATION}
+
+\subsection{Firmware Layer}
+The motion controller was implemented in Arduino firmware as a nine-channel stepper system for syringe actuation. Each channel was driven by a half-step sequence and updated independently, while a shared step-rate parameter constrained the motion speed between 10 and 1200 steps/s. The firmware accepted framed serial commands enclosed in angle brackets and recognized four command families: absolute setpoints, speed updates, single-channel homing, and global homing. The runtime position of each channel was reported periodically through the \texttt{ACT} telemetry frame, while malformed input, unknown commands, and watchdog expiry were reported through \texttt{ERR} messages.
+
+The communication watchdog was used as the main safety layer. If no valid frame was received within 2000 ms, all target positions were forced to the current positions and the system remained in hold mode. This behavior prevented uncontrolled motion after a lost connection and made the firmware suitable for direct supervision from the GUI.
+
+\subsection{Python Communication Layer}
+The Python side was organized as a thin transport layer around \texttt{pyserial}. A dedicated communication helper was used to open the serial port at 115200 baud, send newline-terminated frames, and collect incoming telemetry lines without blocking the interface. The helper also tracked connection failures and exposed a disconnect state so that the GUI could react immediately when the port was closed or the hardware became unavailable.
+
+The frame builders on the Python side mirrored the firmware protocol directly. Absolute channel targets were serialized as \texttt{<SET,p1,p2,\dots,p9>}, the common speed was sent as \texttt{<SPD,steps\_per\_sec>}, and the homing commands were issued as \texttt{<HOME,channel>} or \texttt{<HOMEALL>}. This kept the protocol simple enough to inspect manually, while still supporting coordinated updates across all visible channels.
+
+\subsection{GUI and Manual Control}
+The graphical interface was implemented as a tabbed Tkinter application with four main views: Communication, Manual, Program Action, and Live Control. The Communication tab managed the USB port, system configuration, and a debug entry field for direct command injection. The Manual tab exposed per-channel jog controls, individual home buttons, and two higher-level references: \emph{Configure start} stored the current positions as the preferred start pose, and \emph{Move to start} recalled that pose later. The current positions were also shown in real time and converted into the selected unit system, which could be expressed in steps, millimetres, or millilitres.
+
+Manual state was persisted locally in JSON so that the home and start references survived application restarts. The GUI required home references to be set before a start pose could be configured or recalled, which made the workflow explicit and reduced ambiguity about the current coordinate frame. In addition, Live Control was automatically paused when the user left that tab and resumed when the tab was selected again, so the operator could inspect or edit settings without leaving the system in an active control loop.
+
+\subsection{Safety and Operator Workflow}
+The combined firmware and GUI behavior was designed around hold-state motion rather than implicit resets. The GUI pause, e-stop, and reset actions all kept the current position instead of forcing a zeroed move, which made the system easier to recover after operator interruption. Together, the firmware watchdog, the explicit homing workflow, and the tab-based GUI created a control architecture that separated low-level execution from operator intent while keeping the overall motion state visible at all times.

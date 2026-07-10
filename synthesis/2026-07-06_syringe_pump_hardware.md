@@ -9,3 +9,8 @@ To keep the physical footprint short and low cost, we used industrial 20cc syrin
 
 Finally, for the pneumatic plumbing, we are using dirt-cheap Mineshima 0.6mm OD hobby needles pushed directly into 0.5mm ID silicone tubing. To prevent the tiny 0.37mm hole from acting like a massive restrictor valve, the needles are cut down to just 3mm long. Standard cutters crush the pipe, so they are cut with a blade and then clamped back into a perfect circle to ensure unrestricted airflow.
 
+## Implementation Plan
+1. **CAD & Print Couplers:** Model the custom 5mm D-shaft to 8mm lead screw coupler. Ensure the hex pocket is sized slightly larger (e.g., +0.2mm) to accommodate resin shrinkage for the captive nut. Print 9 units in tough/ABS-like resin.
+2. **Hardware Assembly:** Mount the 9 uxcell 50cc syringes parallel to each other. Attach the T8x8 lead screws and the printed couplers to the 28BYJ-48 motors. 
+3. **Plumbing:** Cut 9 Mineshima needles to 3mm. Use a clamp/pliers to gently massage the cut ends back to a perfect circular cross-section. Push them into the 0.5mm ID silicone tubes.
+4. **Wiring & Code:** Wire the 9 ULN2003 drivers to the Arduino Mega 2560 (using pins 22-53 and 2-5). Flash the non-blocking "Watchdog" serial control code to test simultaneous high-speed movement without overheating the idle motors.

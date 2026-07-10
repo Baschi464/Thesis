@@ -1,0 +1,61 @@
+% Skeleton pulled from the user's real ieeeconf source (not a generic guess).
+% thesis-sync fills in a SECTION or a few SECTIONS at a time, not a full paper,
+% unless the user explicitly asks for a full draft. When writing a section for
+% insertion into an existing .tex file in the repo, drop the preamble below and
+% only emit the \section{...}...\end{section-content} block plus any new
+% \newcommand/\usepackage the section needs (call these out separately so the
+% user can merge them into the real preamble by hand).
+
+\documentclass[a4paper, 10pt, conference]{ieeeconf}
+\IEEEoverridecommandlockouts
+\overrideIEEEmargins
+
+% Common packages seen in this author's papers — add only if the section
+% actually needs them (e.g. amsmath for equations, graphicx for figures):
+% \usepackage{amsmath}
+% \usepackage{graphicx}
+% \usepackage{multirow}
+% \usepackage{makecell}
+
+\begin{document}
+
+% --- SECTION CONTENT GOES HERE ---
+% Conventions observed in the user's own papers (see references/style-guide.md):
+%
+% \section{SECTION NAME IN CAPS}
+% \subsection{Subsection in Title Case}
+%
+% Equations:
+% \begin{equation}
+%   \theta = \arctan\left(\frac{z_2 - z_1}{\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}}\right)
+%   \label{eqn:example}
+% \end{equation}
+%
+% Figures (caption BELOW, full descriptive sentence, lettered sub-panels if
+% multi-part):
+% \begin{figure}[tb]
+%   \centering
+%   \includegraphics[height=38mm]{figures/FILENAME.eps}
+%   \caption{One-sentence description. (a) ... (b) ...}
+%   \label{fig:LABEL}
+% \end{figure}
+%
+% Tables (caption ABOVE):
+% \begin{table}[tb]
+%   \caption{Description of the table contents.}
+%   \label{tab:LABEL}
+%   \centering
+%   \begin{tabular}{|c|c|}
+%     \hline
+%     ... & ... \\ \hline
+%   \end{tabular}
+% \end{table}
+%
+% Citations: BibTeX keys AuthorYYYYShortTitle, e.g. \cite{Gu2018SoftWallClimbing}.
+% If no matching entry exists in references.bib, use \cite{TODO-<short-desc>}
+% and flag it explicitly to the user instead of inventing a source.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

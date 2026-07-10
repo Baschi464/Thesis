@@ -1,0 +1,283 @@
+% !TeX root = main.tex
+
+% Requires in the preamble:
+% \usepackage{amsmath}
+% Optional for tables/figures if added later:
+% \usepackage{graphicx}
+
+\section{REDUCED-ORDER BODY--TAIL MODEL}
+\label{sec:body_tail_model}
+
+The coupled body--tail actuator is modeled as a reduced-order system rather than as a full nonlinear finite-element structure. The objective of the model is not to resolve the complete pressure and strain field inside the fiber-reinforced silicone segments, but to provide a compact description of the measured body--tail posture and to quantify the asymmetric bending response created by the inlet placement and internal channel routing. The model therefore combines: (i) an effective bending transmission ratio, (ii) a two-segment constant-curvature reconstruction, and (iii) a gravity-loaded hinge model for the vertical U-shaped wall-transition configuration.
+
+\subsection{Coordinate Conventions and Measured Variables}
+
+The body and tail segments are denoted by the subscripts $b$ and $t$, respectively. Their effective bendable lengths are $L_b$ and $L_t$, and their measured bending angles are $\theta_b$ and $\theta_t$. The corresponding constant curvatures are defined as
+\begin{equation}
+  \kappa_b = \frac{\theta_b}{L_b}, \qquad
+  \kappa_t = \frac{\theta_t}{L_t}.
+  \label{eqn:body_tail_curvature}
+\end{equation}
+The bending angles are signed quantities. Under the front-to-tail arc-length convention, equal signs of $\kappa_b$ and $\kappa_t$ correspond to a U-shaped posture, while opposite signs correspond to an S-shaped posture. This gives the mode conditions
+\begin{equation}
+  \kappa_b \kappa_t > 0
+  \label{eqn:u_shape_condition}
+\end{equation}
+for U-shaped bending, and
+\begin{equation}
+  \kappa_b \kappa_t < 0
+  \label{eqn:s_shape_condition}
+\end{equation}
+for S-shaped bending.
+
+Two image frames are used for the two main bending modes. For the horizontal S-shaped mode, the top-view image plane is used and gravity is treated as an out-of-plane load with secondary influence on the extracted lateral curvature. For the vertical U-shaped mode, the side-view $(x,z)$ plane is used, with $z$ defined as vertical upward. In this frame, gravity is prescribed as
+\begin{equation}
+  \mathbf{g} =
+  \begin{bmatrix}
+    0 \\
+    -g
+  \end{bmatrix},
+  \qquad g = 9.81~\mathrm{m/s^2}.
+  \label{eqn:gravity_vector}
+\end{equation}
+A small ChArUco board placed on the climbing surface can be used to define the surface coordinate frame and the upward direction in the calibrated camera view.
+
+\subsection{Effective Bending Transmission}
+
+Because the body and tail are geometrically identical but connected through narrow internal channels, the segment closer to the inlet can exhibit a larger bending amplitude than the distal segment. This asymmetry is quantified directly from the measured deformation by the bending transmission ratio
+\begin{equation}
+  \eta_j =
+  \frac{|\theta_{t,j}|}{|\theta_{b,j}|},
+  \qquad
+  j \in \{S,U\},
+  \label{eqn:bending_transmission_ratio}
+\end{equation}
+where $j=S$ denotes the crossed-channel S-shaped mode and $j=U$ denotes the uncrossed-channel U-shaped mode. A value $0 < \eta_j < 1$ indicates that the tail bends less than the body under the same commanded actuation condition.
+
+The internal channel routing is represented by a lumped pneumatic resistance. For an ideal circular laminar channel, the resistance is
+\begin{equation}
+  R = \frac{8 \mu L}{\pi r^4},
+  \label{eqn:hagen_poiseuille}
+\end{equation}
+where $\mu$ is the dynamic viscosity of air, $L$ is the channel length, and $r$ is the channel radius. The crossed channel is represented as an effective resistance
+\begin{equation}
+  R_{\mathrm{cross}} = \beta R_{\mathrm{straight}}, \qquad \beta > 1,
+  \label{eqn:crossed_resistance}
+\end{equation}
+where $\beta$ accounts for the longer path, bends, internal surface roughness, and manufacturing deviations of the printed connector. Equations (\ref{eqn:hagen_poiseuille}) and (\ref{eqn:crossed_resistance}) are used only to motivate the sensitivity of the pneumatic transmission to channel geometry. Since the system is syringe-driven and the internal body and tail pressures are not measured independently, the present paper does not claim a permanent static pressure drop across the connector. The experimentally supported quantity is the effective bending transmission ratio in (\ref{eqn:bending_transmission_ratio}).
+
+\subsection{Two-Segment Constant-Curvature Reconstruction}
+
+For a planar constant-curvature segment, the tangent angle $\psi(s)$ evolves with arc length $s$ according to
+\begin{equation}
+  \psi(s) = \psi_0 + \kappa s,
+  \label{eqn:tangent_angle_evolution}
+\end{equation}
+where $\psi_0$ is the initial tangent angle and $\kappa$ is constant. The centerline satisfies $dx/ds=\cos\psi(s)$ and $dz/ds=\sin\psi(s)$. Integrating these relations gives the constant-curvature mapping
+\begin{equation}
+  \mathbf{C}(s;\mathbf{p}_0,\psi_0,\kappa)=
+  \begin{bmatrix}
+    x_0 + \dfrac{\sin(\psi_0+\kappa s)-\sin\psi_0}{\kappa} \\
+    z_0 + \dfrac{\cos\psi_0-\cos(\psi_0+\kappa s)}{\kappa}
+  \end{bmatrix},
+  \label{eqn:constant_curvature_mapping}
+\end{equation}
+for $\kappa \ne 0$, where $\mathbf{p}_0=[x_0,z_0]^T$. In the straight limit, $\kappa=0$, the mapping becomes
+\begin{equation}
+  \mathbf{C}(s;\mathbf{p}_0,\psi_0,0)=
+  \begin{bmatrix}
+    x_0+s\cos\psi_0 \\
+    z_0+s\sin\psi_0
+  \end{bmatrix}.
+  \label{eqn:constant_curvature_straight_limit}
+\end{equation}
+
+Under the front-to-tail convention, the body starts from the front point $\mathbf{p}_0$ with initial tangent $\psi_0$. Its centerline is
+\begin{equation}
+  \mathbf{p}_b(s) =
+  \mathbf{C}(s;\mathbf{p}_0,\psi_0,\kappa_b),
+  \qquad 0 \le s \le L_b .
+  \label{eqn:body_arc}
+\end{equation}
+The body-tail connector point is
+\begin{equation}
+  \mathbf{p}_c = \mathbf{p}_b(L_b),
+  \label{eqn:connector_point}
+\end{equation}
+with connector tangent angle
+\begin{equation}
+  \psi_c = \psi_0 + \theta_b .
+  \label{eqn:connector_tangent}
+\end{equation}
+The tail centerline is then reconstructed as
+\begin{equation}
+  \mathbf{p}_t(\sigma) =
+  \mathbf{C}(\sigma;\mathbf{p}_c,\psi_c,\kappa_t),
+  \qquad 0 \le \sigma \le L_t,
+  \label{eqn:tail_arc}
+\end{equation}
+where $\sigma=s-L_b$ is the local tail arc length. The complete actuator centerline is therefore
+\begin{equation}
+  \mathbf{p}(s)=
+  \begin{cases}
+    \mathbf{p}_b(s), & 0 \le s \le L_b, \\
+    \mathbf{p}_t(s-L_b), & L_b < s \le L_b+L_t .
+  \end{cases}
+  \label{eqn:full_two_segment_curve}
+\end{equation}
+
+For image-based validation, manually extracted body and tail centerline points are fitted independently by circular arcs. The reconstruction error is evaluated as the root-mean-square distance between the picked centerline points $\mathbf{p}_i$ and the closest points $\hat{\mathbf{p}}_i$ on the fitted model,
+\begin{equation}
+  e_{\mathrm{RMS}} =
+  \sqrt{
+  \frac{1}{N}
+  \sum_{i=1}^{N}
+  \left\| \mathbf{p}_i-\hat{\mathbf{p}}_i \right\|^2
+  }.
+  \label{eqn:reconstruction_rmse}
+\end{equation}
+This metric is used only to report how closely the reduced-order curve describes the measured posture.
+
+\subsection{Effective Pressure Estimate from Calibration}
+
+The pressure-angle characterization of the isolated miniaturized segment provides an optional way to estimate an equivalent pressure from a measured bending angle. The calibration curve is fitted as a zero-intercept quadratic model,
+\begin{equation}
+  \theta = f(P) = aP^2 + bP,
+  \label{eqn:pressure_angle_fit}
+\end{equation}
+where $a$ and $b$ are obtained by least-squares regression of the isolated-segment data. If a measurable zero-pressure offset is present in the image measurements, a free intercept can be retained, but the zero-intercept form is preferable when the zero state is well defined.
+
+For $a \ne 0$, the inverse calibration is
+\begin{equation}
+  f^{-1}(\theta)=
+  \frac{-b+\sqrt{b^2+4a\theta}}{2a}.
+  \label{eqn:inverse_pressure_angle}
+\end{equation}
+The effective pressure transmission ratio can then be estimated as
+\begin{equation}
+  \gamma_j =
+  \frac{P_{t,j}^{\mathrm{eff}}}{P_{b,j}^{\mathrm{eff}}}
+  =
+  \frac{f^{-1}(|\theta_{t,j}|)}{f^{-1}(|\theta_{b,j}|)}.
+  \label{eqn:effective_pressure_transmission}
+\end{equation}
+For the quadratic calibration in (\ref{eqn:pressure_angle_fit}), $\eta_j$ and $\gamma_j$ are not generally equal. If $P_t^{\mathrm{eff}}=\gamma_j P_b^{\mathrm{eff}}$, then
+\begin{equation}
+  \eta_j =
+  \gamma_j
+  \frac{a\gamma_j P_b^{\mathrm{eff}}+b}
+  {aP_b^{\mathrm{eff}}+b}.
+  \label{eqn:eta_gamma_relation}
+\end{equation}
+Only in the linear case, $a=0$, does the bending transmission ratio equal the effective pressure transmission ratio. For this reason, $\eta_j$ is used as the primary experimental metric, while $\gamma_j$ is treated as an optional calibration-based interpretation.
+
+\subsection{Gravity-Loaded U-Bending With Posterior-Foot Constraint}
+
+The vertical U-shaped bending experiment is not a free-space bending test. The posterior suction-cup feet remain attached to the substrate, and their contact line constrains the motion of the body-tail unit. Let the side-view projections of the left and right posterior suction feet be $\mathbf{p}_L$ and $\mathbf{p}_R$. The projected hinge point is defined as
+\begin{equation}
+  \mathbf{p}_h = \frac{\mathbf{p}_L+\mathbf{p}_R}{2}.
+  \label{eqn:posterior_hinge_point}
+\end{equation}
+In the simplest model, the body-tail connector is constrained to rotate about this support point,
+\begin{equation}
+  \mathbf{p}_c \simeq \mathbf{p}_h .
+  \label{eqn:connector_hinge_constraint}
+\end{equation}
+This approximation represents the posterior feet as a revolute-like support during the wall-transition motion. If the connector offset from the posterior-leg axis is non-negligible, the connector position can instead be written as
+\begin{equation}
+  \mathbf{p}_c(\alpha) =
+  \mathbf{p}_h + \mathbf{R}(\alpha)\mathbf{r}_{hc}^{0},
+  \label{eqn:hinge_offset_model}
+\end{equation}
+where $\mathbf{r}_{hc}^{0}$ is the initial vector from the hinge point to the connector and $\mathbf{R}(\alpha)$ is the planar rotation matrix.
+
+Because gravity acts in the same plane as the vertical U-shaped deformation, the measured angles are interpreted as gravity-loaded angles,
+\begin{equation}
+  \theta_b^{\mathrm{meas}} =
+  \theta_b^{\mathrm{pneu}} + \theta_b^{g},
+  \qquad
+  \theta_t^{\mathrm{meas}} =
+  \theta_t^{\mathrm{pneu}} + \theta_t^{g}.
+  \label{eqn:gravity_loaded_angles}
+\end{equation}
+The gravitational contribution is not solved independently. Instead, the measured posture is reconstructed directly using $\theta_b^{\mathrm{meas}}$ and $\theta_t^{\mathrm{meas}}$. The front lifting height is measured from the side-view coordinate frame as
+\begin{equation}
+  \Delta h_f = z_f-z_{f,0},
+  \label{eqn:front_height_change}
+\end{equation}
+where $z_f$ is the front-tip height in the actuated frame and $z_{f,0}$ is its initial value at zero pressure.
+
+\subsection{Tail-Tip Counterweight Moment}
+
+To evaluate the effect of a rear load during U-shaped lifting, a known tip mass $m_{\mathrm{tip}}$ is attached at the distal end of the tail. The gravitational force applied by this mass is
+\begin{equation}
+  \mathbf{F}_{\mathrm{tip}} =
+  m_{\mathrm{tip}}\mathbf{g}
+  =
+  \begin{bmatrix}
+    0 \\
+    -m_{\mathrm{tip}}g
+  \end{bmatrix}.
+  \label{eqn:tip_weight_force}
+\end{equation}
+Let the tail-tip position be $\mathbf{p}_{\mathrm{tip}}$ and define the vector from the posterior hinge to the tip mass as
+\begin{equation}
+  \mathbf{r}_{\mathrm{tip}} =
+  \mathbf{p}_{\mathrm{tip}}-\mathbf{p}_h
+  =
+  \begin{bmatrix}
+    r_x \\
+    r_z
+  \end{bmatrix}.
+  \label{eqn:tip_moment_arm}
+\end{equation}
+The moment about the posterior support is the planar cross product
+\begin{equation}
+  \tau_{\mathrm{tip}} =
+  \mathbf{r}_{\mathrm{tip}} \times \mathbf{F}_{\mathrm{tip}}
+  = r_xF_z-r_zF_x .
+  \label{eqn:tip_moment_cross_product}
+\end{equation}
+Since $F_x=0$ and $F_z=-m_{\mathrm{tip}}g$, this becomes
+\begin{equation}
+  \tau_{\mathrm{tip}} = -r_xm_{\mathrm{tip}}g .
+  \label{eqn:tip_moment_scalar}
+\end{equation}
+The sign of $\tau_{\mathrm{tip}}$ determines whether the mass assists or resists front lifting. The magnitude of the counterweight moment is
+\begin{equation}
+  |\tau_{\mathrm{tip}}| = |r_x|m_{\mathrm{tip}}g .
+  \label{eqn:tip_moment_magnitude}
+\end{equation}
+
+The front of the robot lifts when the pneumatic moment and the assisting counterweight moment exceed the resisting gravitational moment of the body, legs, and tubing,
+\begin{equation}
+  M_{\mathrm{pneu}} + M_{\mathrm{cw}} > M_{\mathrm{resist}}.
+  \label{eqn:front_lifting_condition}
+\end{equation}
+The experiment therefore evaluates the design variable $m_{\mathrm{tip}}$ through the measured function
+\begin{equation}
+  \Delta h_f = H(P,m_{\mathrm{tip}}),
+  \label{eqn:front_height_function}
+\end{equation}
+where $P$ is the pressure read from the digital display in the same frame. The best tested tail load can be reported as
+\begin{equation}
+  m_{\mathrm{tip}}^{*} =
+  \underset{m_{\mathrm{tip}}}{\mathrm{arg\ max}}\; \Delta h_f(P,m_{\mathrm{tip}}).
+  \label{eqn:best_tip_mass}
+\end{equation}
+
+Finally, the rear load also shifts the longitudinal center of mass. If the unloaded robot mass is $M_R$, its longitudinal center of mass is $x_R$, and the tip mass is located at $x_{\mathrm{tip}}$, the loaded center of mass is
+\begin{equation}
+  x_{\mathrm{CoM}}(m_{\mathrm{tip}})=
+  \frac{M_Rx_R+m_{\mathrm{tip}}x_{\mathrm{tip}}}
+  {M_R+m_{\mathrm{tip}}}.
+  \label{eqn:center_of_mass_loaded}
+\end{equation}
+The corresponding shift is
+\begin{equation}
+  \Delta x_{\mathrm{CoM}} =
+  \frac{m_{\mathrm{tip}}(x_{\mathrm{tip}}-x_R)}
+  {M_R+m_{\mathrm{tip}}}.
+  \label{eqn:center_of_mass_shift}
+\end{equation}
+If the tail tip lies behind the original center of mass, the added load shifts the center of mass rearward. This shift is interpreted as a possible contributor to transition stability, while direct improvement of wall-transition performance must be evaluated by transition trials.
