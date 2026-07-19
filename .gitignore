@@ -1,2 +1,5 @@
 **/build/
 
+# epstopdf byproducts (regenerated on every compile)
+**/*-eps-converted-to.pdf
+

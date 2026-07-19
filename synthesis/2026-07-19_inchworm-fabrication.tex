@@ -1,0 +1,57 @@
+% !TeX root = main.tex
+
+% ============================================================
+% thesis-sync entry: 2026-07-19_inchworm-fabrication
+% Type: design decision (fabrication process) — reinstates the paper's
+%       commented-out "Materials and Manufacturing" subsection.
+% Part of the INCHWORM ROBOT block (prior work, precedes the lizard sections).
+% Insertable section block (no preamble). Requires: graphicx.
+% ============================================================
+
+\section{ACTUATOR FABRICATION}
+\label{sec:inchworm-fabrication}
+
+\subsection{Body Casting and Fiber Reinforcement}
+
+The first step in the manufacturing process was fabricating the mold, shown
+in Fig.~\ref{fig:inchworm-mold}, to cast the silicone body (EcoFlex 00-30,
+Smooth-On). Three brass prisms with a fan-shaped cross-section were used to
+form the inner cavities of the actuator's chambers. Two CNC-machined acrylic
+pieces acted as spacers, keeping the brass cores separated by 0.5~mm to
+define the internal wall thickness. An acrylic casing was used to keep the
+mold's cover and spacers perfectly aligned.
+
+\begin{figure}[tbh]
+ \centering
+  \includegraphics[height=32mm]{figures/mold.eps}
+  \vspace*{-2mm}
+  \caption{The actuator's silicone casting mold.}
+  \label{fig:inchworm-mold}
+\end{figure}
+
+The second step consisted of wrapping inextensible fibers in parallel
+circumferences, with a 1.5~mm spacing, around the actuator's external walls
+after coating them in fresh silicone. As the final step for the main body, a
+resin 3D-printed top cap (with pressure ports) and bottom cap were glued to
+the silicone using KE-44T adhesive (Shin-Etsu Chemical). The final
+dimensions of the assembled actuator are 66~mm in length and 18~mm in
+diameter.
+
+\subsection{Suction Cups and Soft Hinge}
+
+The suction cups (Fig.~\ref{fig:inchworm-cup}) were fabricated with a rigid
+central piece of Polyetherimide (PEI) to prevent the cup ceiling from
+collapsing under the negative pressure required for adhesion. A compliant
+silicone lip was cast around this rigid core to ensure the suction cup
+creates an effective initial seal. Finally, a secondary silicone lip was
+cast on the distal ends of the actuator to create the soft hinge, and the
+suction cups were bonded to these lips using the KE-44T adhesive.
+
+\begin{figure}[tbh]
+ \centering
+  \includegraphics[height=30mm]{figures/suctioncup.eps}
+  \vspace*{-2mm}
+  \caption{The robot's suction cups. (Left) Diagram. (Right) Fabricated
+  suction cup.}
+  \label{fig:inchworm-cup}
+\end{figure}

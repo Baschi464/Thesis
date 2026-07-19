@@ -6,6 +6,8 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage{multirow}
+\usepackage{makecell}
 
 \begin{document}
 
@@ -19,6 +21,23 @@
 % =====================================================================
 
 
+% ---------------------------------------------------------------------
+% INCHWORM ROBOT (prior work) — foundation the lizard robot builds on.
+% Placed before the lizard content; the lizard sections cross-reference
+% these via \ref{sec:inchworm-*}.
+% ---------------------------------------------------------------------
+\input{2026-07-19_inchworm-intro-concept.tex}
+\input{2026-07-19_inchworm-actuator-design-fem.tex}
+\input{2026-07-19_inchworm-fabrication.tex}
+\input{2026-07-19_inchworm-bending-experiment.tex}
+\input{2026-07-19_inchworm-pneumatic-system-circuit.tex}
+\input{2026-07-19_inchworm-smc-controller.tex}
+\input{2026-07-19_inchworm-gui.tex}
+\input{2026-07-19_inchworm-performance-gaits.tex}
+
+% ---------------------------------------------------------------------
+% LIZARD ROBOT (current work)
+% ---------------------------------------------------------------------
 \input{2026-07-06_introduction_lizard.tex}
 \input{2026-07-06_syringe_pump_hardware.tex}
 \input{2026-07-06_firmware-python-arduino-gui-manual-control.tex}
@@ -33,6 +52,7 @@
 \input{2026-07-06_vertical-ubend-loads-wall-transition.tex}
 \input{2026-07-07_body_tail_analytical_model.tex}
 \input{2026-07-07_reconstruction_results_section.tex}
+
 \input{2026-07-11_gp-forward-model.tex}
 
 

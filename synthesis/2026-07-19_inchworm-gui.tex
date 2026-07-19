@@ -1,0 +1,64 @@
+% !TeX root = main.tex
+
+% ============================================================
+% thesis-sync entry: 2026-07-19_inchworm-gui
+% Type: design decision (software architecture) — reinstates the paper's
+%       commented-out "Pneumatic System Graphical User Interface" subsection.
+% Part of the INCHWORM ROBOT block (prior work, precedes the lizard sections).
+% NOTE: this is the GUI of the eight-channel *solenoid* pneumatic system
+% (Section~\ref{sec:inchworm-pneumatics}); it is distinct from the manual
+% syringe-pump control interface documented for the lizard robot.
+% Insertable section block (no preamble). Requires: graphicx.
+% ============================================================
+
+\section{GRAPHICAL USER INTERFACE}
+\label{sec:inchworm-gui}
+
+To orchestrate complex gait sequences and to facilitate intuitive operation
+of the soft robot, a custom Graphical User Interface (GUI) was developed to
+establish real-time, bidirectional communication with the pneumatic control
+hardware. The interface is structurally divided into two primary
+environments, to separate trajectory generation from execution.
+
+The \textit{Program} tab (Fig.~\ref{fig:inchworm-programtab}) provides a
+dedicated workspace in which the user designs and preprograms specific
+robotic ``actions.'' An action is characterized by a synchronized set of
+target-pressure trajectories across all active pneumatic channels. These
+continuous trajectories are constructed by interpolating between discrete
+$(t, P)$ keypoints---representing time and target pressure,
+respectively---defined over a finite duration. This allows for precise
+temporal control over the inflation and deflation dynamics of the individual
+actuator segments.
+
+\begin{figure}[tbh]
+ \centering
+  \includegraphics[height=38mm]{figures/programTab.eps}
+  \vspace*{-2mm}
+  \caption{Program tab of the graphical user interface, in which the user
+  preprograms the robot's actions by defining target-pressure curves through
+  $(t,P)$ keypoints.}
+  \label{fig:inchworm-programtab}
+\end{figure}
+
+Once formulated, these multi-channel actions are serialized and stored as
+JSON files within a centralized action library. This library is directly
+accessible from the \textit{Live Control} tab
+(Fig.~\ref{fig:inchworm-controltab}). Furthermore, the \textit{Live Control}
+tab features real-time plotting capabilities, continuously overlaying the
+target-pressure curves with the measured sensor outputs for each channel.
+This provides immediate visual feedback on the controller's tracking
+performance, and the resulting graphical data can be exported, capturing up
+to 60 seconds of plot history for subsequent empirical analysis. In this
+deployment environment, the user can plan and execute combinations of these
+preprogrammed actions, evaluating the soft robot's macroscopic locomotion and
+behavioral responses.
+
+\begin{figure}[tbh]
+ \centering
+  \includegraphics[height=38mm]{figures/controltab.eps}
+  \vspace*{-2mm}
+  \caption{Live Control tab of the graphical user interface, from which the
+  user launches sequences of preprogrammed actions to control the robot in
+  real time while monitoring target-versus-measured pressure tracking.}
+  \label{fig:inchworm-controltab}
+\end{figure}
