@@ -3,3 +3,6 @@
 # epstopdf byproducts (regenerated on every compile)
 **/*-eps-converted-to.pdf
 
+# Office temp lock files (e.g. ~$ComsolResults.xlsx)
+**/~$*
+

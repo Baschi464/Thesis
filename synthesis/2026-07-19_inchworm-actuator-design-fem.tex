@@ -111,27 +111,60 @@ geometrically defined as:
 
 The parametric analysis indicated that minimizing both the fiber spacing and
 the outer wall thickness significantly reduced the required operating
-pressure. Furthermore, strategies to mitigate the ballooning effect of the
-active internal chamber were investigated, specifically by incorporating
-radial fiber reinforcements and by using an elastomer with a higher elastic
-modulus (EcoFlex 00-50) for the internal walls. Interestingly, suppressing
-the ballooning effect did not reduce the three-chambered actuator's pressure
+pressure, as shown in Figs.~\ref{fig:inchworm-fiberspacing}
+and~\ref{fig:inchworm-wallthickness}. Furthermore, strategies to mitigate the
+ballooning effect of the active internal chamber were investigated,
+specifically by incorporating radial fiber reinforcements and by using an
+elastomer with a higher elastic modulus (EcoFlex 00-50) for the internal
+walls. The bending angles obtained for a single and for two simultaneously
+pressurized chambers across these designs are compared in
+Table~\ref{tab:inchworm-designcomparison}. Interestingly, suppressing the
+ballooning effect did not reduce the three-chambered actuator's pressure
 requirements, as the unpressurized chambers inherently act as a
-strain-limiting layer during bending. The simulation results are shown in
-Fig.~\ref{fig:inchworm-comsol}.
+strain-limiting layer during bending. The simulated stress distribution over
+a single-chamber bending sequence is shown in Fig.~\ref{fig:inchworm-stress}.
 
-\begin{figure*}[tb]
+\begin{figure}[tb]
  \centering
-  \includegraphics[height=40mm]{figures/comsol.eps}
+  \includegraphics[height=45mm]{figures/decomposed/comsolBend.png}
   \vspace*{-2mm}
-  \caption{FEM simulation results characterizing the soft actuator.
-  (a)~Simulated stress distribution. (b)~Effect of circumferential fiber
-  spacing on bending angle when a single chamber is pressurized at 2~kPa.
-  (c)~Effect of silicone wall thickness on bending angle when a single
-  chamber is pressurized at 3~kPa. (d)~Bending performance comparison for 1
-  and 2 pressurized chambers at 3~kPa across three designs: a baseline
-  actuator (EcoFlex 00-30) with 3~mm spaced circumferential fibers, a
-  dual-material actuator with EcoFlex 00-50 internal walls, and an actuator
-  with additional radial fibers spaced at 3~mm.}
-  \label{fig:inchworm-comsol}
-\end{figure*}
+  \caption{Simulated stress distribution of the optimized actuator over a
+  single-chamber bending sequence of increasing pressure.}
+  \label{fig:inchworm-stress}
+\end{figure}
+
+\begin{figure}[tb]
+ \centering
+  \includegraphics[width=0.82\columnwidth]{figures/decomposed/fiberspacing.png}
+  \vspace*{-2mm}
+  \caption{Effect of the circumferential fiber spacing on the bending angle
+  when a single chamber is pressurized at 2~kPa.}
+  \label{fig:inchworm-fiberspacing}
+\end{figure}
+
+\begin{figure}[tb]
+ \centering
+  \includegraphics[width=0.82\columnwidth]{figures/decomposed/wallthickness.png}
+  \vspace*{-2mm}
+  \caption{Effect of the silicone outer-wall thickness on the bending angle
+  when a single chamber is pressurized at 3~kPa.}
+  \label{fig:inchworm-wallthickness}
+\end{figure}
+
+\begin{table}[tb]
+  \caption{Bending angle for one and two simultaneously pressurized chambers
+  at 3~kPa (3~mm circumferential fiber spacing), compared across three
+  actuator designs. The full FEM data are tabulated in the appendix
+  (Tables~\ref{tab:app-wallthickness}--\ref{tab:app-designcomparison}).}
+  \label{tab:inchworm-designcomparison}
+  \centering
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{|l|c|c|}
+    \hline
+    Design & \makecell{1 chamber\\{[}deg{]}} & \makecell{2 chambers\\{[}deg{]}} \\ \hline
+    Baseline (EcoFlex 00-30) & 37.1 & 28.7 \\ \hline
+    Dual-material (EcoFlex 00-50 walls) & 27.8 & 24.7 \\ \hline
+    Radial fibers (3~mm) & 20.1 & 26.1 \\ \hline
+  \end{tabular}
+\end{table}
