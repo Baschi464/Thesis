@@ -1,0 +1,100 @@
+# default.yaml -- forward_model config.
+#
+# HONESTY NOTE: no real recordings exist yet (see handoffs/gp_code_handoff.md
+# and README.md). Every numeric default below that stands in for a
+# not-yet-measured physical quantity is marked TODO-REAL-DATA and is used
+# only by the synthetic generator (synth.py) / as a placeholder default for
+# real data once it exists -- never presented as a measured result.
+
+actuators:
+  # 4 legs + 1 coupled body-tail unit (ch5/ch6 alternate, never co-actuated
+  # -- see gp_handoff.md project context). channel_map is provisional until
+  # the real recording rig's config.yaml channel assignments are final.
+  - name: leg1
+    channels: [1]
+    regimes: ["na"]
+  - name: leg2
+    channels: [2]
+    regimes: ["na"]
+  - name: leg3
+    channels: [3]
+    regimes: ["na"]
+  - name: leg4
+    channels: [4]
+    regimes: ["na"]
+  - name: bodytail
+    channels: [5, 6]
+    regimes: ["ch5", "ch6"]   # never co-actuated; regime column selects branch
+
+# --- Data split -----------------------------------------------------------
+split:
+  method: "stroke_wise"       # never random-row (consecutive frames correlate)
+  test_fraction: 0.25
+  hold_out_levels: true       # where possible, also hold out whole step-levels
+  seed: 0
+
+# --- GP model ---------------------------------------------------------------
+gp:
+  kernel: "matern52_ard"       # matern52_ard | matern32_ard | rbf_ard -- one-line swap for the RBF-vs-Matern comparison
+  ard: true
+  normalize_y: true
+  standardize_x: true
+  n_restarts_optimizer: 3
+  alpha: 1.0e-10               # extra numerical jitter added to the WhiteKernel-estimated noise
+
+linear:
+  fit_intercept: true
+
+mlp:
+  # SCAFFOLD ONLY per gp_code_handoff.md SS5 -- do not invest heavily.
+  hidden_layer_sizes: [16, 16]
+  max_iter: 2000
+  random_state: 0
+  enabled: false                # off by default; B3 is optional
+
+# --- Prior (Variant A) ------------------------------------------------------
+prior:
+  candidates: ["linear", "quad0", "saturating"]   # zero-intercept quadratic; saturating = a*tanh(b*u)
+  relaxation: "quasi_static"    # Delta_prior = (g_i(u_t) - z_t) * (1 - exp(-dt/tau)); tau below
+  tau_s: 1.0                    # TODO-REAL-DATA: relaxation time constant, unmeasured -> synthetic placeholder
+
+# --- Augmentation (narrow, honest -- see augment.py docstring) -------------
+augment:
+  measured_noise_jitter: false  # A-1, off by default; toggle in evaluate.py runs to A/B test it
+  jitter_scale: 1.0             # multiplies meas_noise_sd when jitter is enabled
+  held_frame_grouping: true     # A-2, on by default (pure noise reduction, no invented data)
+  mirror_symmetry: false        # A-3, optional+warned, default OFF (see augment.py)
+
+# --- Evaluation --------------------------------------------------------------
+evaluate:
+  rollout_horizons: [1, 2, 5, 10, 20]
+  data_efficiency_fractions: [0.25, 0.5, 0.75, 1.0]
+  calibration_sigma_levels: [1, 2]     # report empirical coverage of +-1sigma, +-2sigma
+  calibration_tolerance: 0.15          # +-15 pts around nominal 68%/95% counts as "calibrated" on synthetic
+
+# --- Synthetic generator (synth.py) -- ONLY data source until real recordings ----
+synth:
+  seed: 0
+  n_actuators_jitter_sd: 0.1          # per-actuator manufacturing-variability jitter on (a,b) of kappa_ss(u)=a*tanh(b*u)
+  a_nominal: 0.05                      # 1/mm, TODO-REAL-DATA nominal saturating-curvature scale
+  b_nominal: 0.01                      # TODO-REAL-DATA nominal steps->tanh-argument scale
+  dt_s: 0.1                            # TODO-REAL-DATA frame dt placeholder (fps unknown until real recordings)
+  tau_s: 1.0                           # quasi-static relaxation time constant used to GENERATE synthetic data
+  meas_noise_sd: 0.002                 # 1/mm, TODO-REAL-DATA: real value from vision-pipeline validation, unmeasured
+  deadzone:
+    enabled: true
+    width_steps: 40                    # TODO-REAL-DATA: reversal-deadzone width placeholder
+    suppression: 0.9                   # fraction of Delta-kappa suppressed inside the deadzone (the "scarp")
+  n_strokes_jog: 40                    # step-input (jog-like) sequences per actuator
+  n_strokes_staircase: 6               # ascending/descending staircase sequences per actuator
+  staircase_levels: [0, 200, 400, 600, 800, 1000, 800, 600, 400, 200, 0]
+  jog_step_range: [-300, 300]
+  n_frames_per_stroke: [15, 40]        # [min, max] frames per stroke, uniform random
+  session_id: "synthetic_session_0"
+  gait_sequence:
+    enabled: true
+    n_frames: 200
+
+# --- Paths -------------------------------------------------------------------
+paths:
+  outputs_dir: "outputs"
